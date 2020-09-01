@@ -4,8 +4,9 @@
 ### 09/01/2018 ###############
 
 #Edit these variables to reflect the start and end times of the period for which you wish to collect metrics
-$startTime = "2020-09-01T14:00:00Z"
-$endTime = "2020-09-01T15:00:00Z"
+$startTime = "2020-08-01T00:00:00Z"
+$endTime = "2020-08-31T23:59:59Z"
+$timeGrain = "12:00:00"
 
 #Edit this variable to match the name of the subscription you wish to run the script against
 $subName = "Microsoft Azure Internal Consumption"
@@ -25,8 +26,8 @@ $functions = Get-AzFunctionApp
 #Iterate against the function apps in the subscription and collect metrics
 forEach ($fn in $functions)
 {
-    $metric1 = Get-AzMetric -ResourceId $fn.id -MetricName "FunctionExecutionCount" -StartTime $startTime -EndTime $endTime -TimeGrain 00:01:00 -WarningAction SilentlyContinue
-    $metric2 = Get-AzMetric -ResourceId $fn.id -MetricName "FunctionExecutionUnits" -StartTime $startTime -EndTime $endTime -TimeGrain 00:01:00 -WarningAction SilentlyContinue
+    $metric1 = Get-AzMetric -ResourceId $fn.id -MetricName "FunctionExecutionCount" -StartTime $startTime -EndTime $endTime -TimeGrain $timeGrain -WarningAction SilentlyContinue
+    $metric2 = Get-AzMetric -ResourceId $fn.id -MetricName "FunctionExecutionUnits" -StartTime $startTime -EndTime $endTime -TimeGrain $timeGrain -WarningAction SilentlyContinue
     $feCount = $metric1.data.total
     $feUnits = $metric2.data.total
 
